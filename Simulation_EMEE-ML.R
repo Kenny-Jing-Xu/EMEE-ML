@@ -1,39 +1,26 @@
 # Title: "Simulation Study for EMEE-ML Method"
 # Author: "Jing Xu"
-# Data: "02/09/2026"
+# Data: "07/09/2026"
 
 ## Package installation
-install.packages("geepack")
-install.packages('haven')
-install.packages("lubridate")     
-install.packages("gldrm")
-install.packages("sandwich")
-install.packages("brant")
+install.packages("foreach")
 install.packages("rootSolve")
-install.packages("fastDummies")
-install.packages("lmerTest")
-install.packages("glm2")
-install.packages("naniar")
-install.packages("randomForest")
-
 install.packages("doParallel")
-install.packages("Rcompadre")
-install.packages("readxl")
-install.packages("recipes")
-install.packages("microbenchmark")
+install.packages("parallel")
 install.packages("Formula")
 install.packages("earth")
-
-# The original BART implementation
-install.packages("BayesTree")
-
-# The newer, faster implementation (recommended)
-install.packages("dbarts")
-
-# Alternative: BART via the bartMachine package
-install.packages("bartMachine")
-install.packages("glmnet")
+install.packages("BayesTree") # The original BART implementation
+install.packages("dbarts") # The newer, faster implementation (recommended)
+install.packages("bartMachine") # Alternative: BART via the bartMachine package
+install.packages("truncnorm")
 install.packages("brnn")
+install.packages("brant")
+install.packages("plotmo")
+install.packages("plotrix")
+install.packages("glmnet")
+install.packages("glm2")
+install.packages("readxl")
+
 
 ## Managing big dataset
 options( max.print = 1000000 ) 
@@ -42,39 +29,24 @@ memory.size(1000000)
 rm(list = ls()) 
 
 ## Load R packages
-library(geepack)
-library(dplyr)
-library(lmerTest)
-library(stringi)
-library(lubridate)
-library(haven)
-library(glm2)
-library(gldrm)
-library(zoo)
-library(sandwich)
-library(MASS)
-library(brant)
-library(parallel)
-library(rootSolve)
-library(fastDummies)
-library(dplyr)
-library(mgcv)
-library(naniar)
-library(randomForest)
 library(foreach)
+library(rootSolve)
 library(doParallel)
-library(Rcompadre)
-library(readxl)
-library(recipes)
-library(microbenchmark)
-library(dbarts)
-library(glmnet)
+library(parallel)
 library(Formula)
+library(earth)
+library(BayesTree)
+library(dbarts)
+library(bartMachine)
 library(truncnorm)
 library(brnn)
+library(brant)
 library(plotmo)
 library(plotrix)
-library(earth)
+library(glmnet)
+library(glm2)
+library(readxl)
+
 
 ## Directory
 setwd("~/Dropbox/Ordinal MRT/Git")
@@ -83,6 +55,9 @@ setwd("~/Dropbox/Ordinal MRT/Git")
 source("EMEE_mc_ord.R")
 source("EMEE_ML.R")
 source("Data_MRT_MC_Ord.R")
+
+
+
 
 ## Data generation
 NoTrial <- 500
@@ -140,8 +115,7 @@ est_beta <- array( NA, dim = c( dim(beta_true)[1], M, NoTrial ) )
 se_beta <- array( NA, dim = c( dim(beta_true)[1], M, NoTrial ) )
 for( s in 1:NoTrial)
 {
-  EMEE_sim <- #fit_EMEE(
-    fit_EMEE_ML( 
+  EMEE_sim <- fit_EMEE_ML( 
     dta = sim_H_A_Y[[s]],
     id_varname = "ID",
     decision_time_varname = "DecPt",
@@ -201,6 +175,9 @@ hist( est_beta[ 1, 1, ], xlab = expression(hat(beta)[11]), main = "" )
 qqnorm( est_beta[ 1, 1, ], main = "", )
 qqline( est_beta[ 1, 1, ] )
 shapiro.test(est_beta[ 1, 1, ] )$p.value
+
+
+
 
 # delete the plots
 dev.off()
