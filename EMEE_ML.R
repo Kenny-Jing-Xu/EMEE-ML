@@ -2,20 +2,20 @@ library(rootSolve) # for solver function multiroot()
 library(geepack) # for fitting GEE using package
 
 fit_EMEE_ML <- function(
-    dta,
-    id_varname,
-    decision_time_varname,
-    treatment_varname,
-    outcome_varname,
-    nuisance_method,
-    control_varname,
-    control_varname2,
-    moderator_varname,
-    rand_prob_varname,
-    avail_varname = NULL,
-    rand_prob_tilde_varname = NULL, # \tilde{p}_t(1|H_t) in WCLS (variable name in the data set)
-    rand_prob_tilde = NULL,         # \tilde{p}_t(1|H_t) in WCLS (numeric number or vector)
-    estimator_initial_value = NULL
+    dta, # Data used for analysis
+    id_varname, # Variable name for ID
+    decision_time_varname, # Variable name for decision time point
+    treatment_varname, # Variable name for treatment
+    outcome_varname, # Variable name for outcome
+    nuisance_method, # Estimation method for the nuisance parameters
+    control_varname, # Variable names for the nuisance parameters Ht
+    control_varname2, # Variable names for the nuisance part when the 'gam' method is used
+    moderator_varname, # Variable names for the moderator St
+    rand_prob_varname, # Variable names for the random probabilities P(Ht)
+    avail_varname = NULL, # Variable name for the availability indicator It
+    rand_prob_tilde_varname = NULL, # Variable names for the random probabilities \tilde{P}(S_t) 
+    rand_prob_tilde = NULL, # Random probabilities \tilde{P}(S_t)  
+    estimator_initial_value = NULL # Initial value for the estimator
 )
 {
   sample_size <- length( unique( dta[ , id_varname ] ) )

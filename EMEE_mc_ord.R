@@ -22,18 +22,18 @@ find_change_location <- function( v ){
 }
 
 fit_EMEE <- function(
-    dta,
-    id_varname,
-    decision_time_varname,
-    treatment_varname,
-    outcome_varname,
-    control_varname,
-    moderator_varname,
-    rand_prob_varname,
-    avail_varname = NULL,
-    rand_prob_tilde_varname = NULL, # \tilde{p}_t(1|H_t) in WCLS (variable name in the data set)
-    rand_prob_tilde = NULL,    
-    estimator_initial_value = NULL
+    dta, # Data used for analysis
+    id_varname, # Variable name for ID
+    decision_time_varname, # Variable name for decision time point
+    treatment_varname, # Variable name for treatment
+    outcome_varname, # Variable name for outcome
+    control_varname, # Variable names for the nuisance parameters Ht
+    moderator_varname, # Variable names for the moderator St
+    rand_prob_varname, # Variable names for the random probabilities P(Ht)
+    avail_varname = NULL, # Variable name for the availability indicator It
+    rand_prob_tilde_varname = NULL, # Variable names for the random probabilities \tilde{P}(S_t)
+    rand_prob_tilde = NULL, # Random probabilities \tilde{P}(S_t)    
+    estimator_initial_value = NULL # Initial value for the estimator
 )
 {
   sample_size <- length( unique( dta[ , id_varname ] ) )
